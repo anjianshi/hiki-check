@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
+from __future__ import print_function
 import time
 from datetime import datetime
 import requests
 from requests.exceptions import Timeout
+import sys
 
-
-device_name = None
-interval = 60  # 两次检查间间隔多少秒
-connect_timeout = 10 # 通过网络连接目标硬盘录像机允许的时长
+from default_config import *
+from config import *
 
 
 def write_log(location, normal=True):
@@ -16,10 +16,11 @@ def write_log(location, normal=True):
     location=location,
     time=datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S')
   )
-  
-  with open('check.log', 'a') as log_file:
-    log_file.write(content + "\n")
-  print content
+  print(content, end='\n', file=sys.stdout if normal else sys.stderr)
+
+  if not normal:
+    # todo： 发邮件、发短信
+    pass
 
 
 if device_name is None:
