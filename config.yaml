@@ -1,0 +1,9 @@
+---
+appname: hiki
+version: 1
+
+cron:
+    - description: execute_check
+      url: /?cron=true
+      schedule: every 1 min
+...
