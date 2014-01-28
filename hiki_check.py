@@ -78,7 +78,7 @@ def _send_sms():
   if sms_api_key is None or sms_receiver is None:
     return False
 
-  content = '您的注册信息为: hiki failed'
+  content = sms_template.format('hiki failed')
   resp = requests.post('http://www.tui3.com/api/send/', 
     data=dict(k=sms_api_key, p=1, t=sms_receiver, c=unicode(content).encode('utf-8')))
   return True

@@ -11,3 +11,5 @@ mail_receiver = None
 
 sms_api_key = None
 sms_receiver = None
+sms_template = 't3test {}' # 短信模板，用 {} 做实际信息的占位符。
+                           # 推立方短信平台需要对短信内容的格式进行备案。修改此选择来让发出的短信符合备案格式
