@@ -79,8 +79,11 @@ def _send_sms():
     return False
 
   content = sms_template.format('hiki failed')
+  if isinstance(content, unicode):
+    content = content.encode('utf-8')
+  
   resp = requests.post('http://www.tui3.com/api/send/', 
-    data=dict(k=sms_api_key, p=1, t=sms_receiver, c=unicode(content).encode('utf-8')))
+    data=dict(k=sms_api_key, p=1, t=sms_receiver, c=content))
   return True
 
 
