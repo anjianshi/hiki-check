@@ -51,7 +51,14 @@ def _send_mail(subject, content):
   if mail_receiver is None or mail_smtp is None:
     return False
 
-  host, port, mail_account, mail_password, use_tls = mail_smtp
+  if isinstance(mail_smtp, str):
+    mail_account = mail_smtp
+    smtp = smtplib.SMTP('localhost')
+  else:
+    host, port, mail_account, mail_password, use_tls = mail_smtp 
+    _cls = smtplib.SMTP_SSL if use_tls else smtplib.SMTP 
+    smtp = _cls(host, port)
+    smtp.login(mail_account, mail_password)
 
   msg = MIMEText(unicode(content).encode('utf-8'))
   msg['Subject'] = unicode(subject).encode('utf-8')
@@ -59,10 +66,7 @@ def _send_mail(subject, content):
   msg['To'] = mail_receiver
   msg = msg.as_string()
 
-  _cls = smtplib.SMTP_SSL if use_tls else smtplib.SMTP
-  s = _cls(host, port)
-  s.login(mail_account, mail_password)
-  s.sendmail(mail_account, mail_receiver, msg)
+  smtp.sendmail(mail_account, mail_receiver, msg)
 
   return True
 
