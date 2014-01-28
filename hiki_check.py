@@ -105,4 +105,4 @@ if __name__ == "__main__":
 
     return '<pre>' + text + '</pre>'
 
-  app.run()
+  app.run(port=app_port)
