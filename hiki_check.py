@@ -78,7 +78,7 @@ def _send_sms():
   if sms_api_key is None or sms_receiver is None:
     return False
 
-  content = sms_template.format('hiki failed')
+  content = sms_template.format('hiki-err')
   if isinstance(content, unicode):
     content = content.encode('utf-8')
   
