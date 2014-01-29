@@ -67,6 +67,7 @@ def _send_mail(subject, content):
   msg = msg.as_string()
 
   smtp.sendmail(mail_account, mail_receiver, msg)
+  smtp.quit()
 
   return True
 
