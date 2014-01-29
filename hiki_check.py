@@ -24,15 +24,6 @@ def check(skip_logging=False):
   resp = requests.get('http://www.hik-online.com/' + device_name, allow_redirects=False)
   location = resp.headers['location']
 
-  try:
-    requests.get(location, timeout=connect_timeout)
-  except Timeout:
-    if not skip_logging:
-      _write_failed_log(location)
-    return 'error'
-  else:
-    return 'normal'
-
   if _try_connect(location):
     return 'normal'
   else:
@@ -42,9 +33,10 @@ def check(skip_logging=False):
       time.sleep(30)
       if _try_connect(location):
         return 'normal'
+
+    if not skip_logging:
+      _write_failed_log(location)
     return 'error'
-
-
 
 
 def _try_connect(location):
