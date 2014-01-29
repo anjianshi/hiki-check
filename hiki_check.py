@@ -33,6 +33,28 @@ def check(skip_logging=False):
   else:
     return 'normal'
 
+  if _try_connect(location):
+    return 'normal'
+  else:
+    # 如果连接失败，再重试 3 次；在这几次也失败的情况下，才判定是真的无法连接。
+    # 这样可以减少误判
+    for i in range(3):
+      time.sleep(30)
+      if _try_connect(location):
+        return 'normal'
+    return 'error'
+
+
+
+
+def _try_connect(location):
+  try:
+    requests.get(location, timeout=connect_timeout)
+  except Timeout:
+    return False
+  else:
+    return True
+
 
 def _write_failed_log(location):
   content = 'check failed, {location} , {time}'.format(
