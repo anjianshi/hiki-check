@@ -27,10 +27,10 @@ def check(skip_logging=False):
   if _try_connect(location):
     return 'normal'
   else:
-    # 如果连接失败，再重试 3 次；在这几次也失败的情况下，才判定是真的无法连接。
+    # 如果连接失败，再重试 2 次；在这几次也失败的情况下，才判定是真的无法连接。
     # 这样可以减少误判
     for i in range(3):
-      time.sleep(30)
+      time.sleep(180)
       if _try_connect(location):
         return 'normal'
 
