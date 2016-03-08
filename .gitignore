@@ -1,3 +1,5 @@
 check.log
 config.py
 *.pyc
+.python-version
+new/
