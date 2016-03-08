@@ -104,11 +104,15 @@ def _send_sms():
 
 
 if __name__ == "__main__":
+    checking = True
+
     # 每隔固定时长进行一次检查
     # 必须在 app 运行前执行，不然无效
     def thread_logic():
+        global checking
         while True:
-            print('result: ' + check())
+            if checking:
+                print('result: ' + check())
             time.sleep(check_interval)
 
     threading.Thread(target=thread_logic).start()
@@ -125,6 +129,18 @@ if __name__ == "__main__":
                 text += "\n\n\nlog content:\n"
                 text += log_file.read()
 
-        return '<pre>' + text + '</pre>'
+        return '<pre>' + text + '</pre>' + '<p><a href="./stop">stop</a> <a herf="./start">start</a></p>'
+
+    @app.route('/stop')
+    def stop():
+        global checking
+        checking = False
+        return 'stopped'
+
+    @app.route('/start')
+    def start():
+        global checking
+        checking = True
+        return 'started'
 
     app.run(port=app_port)
