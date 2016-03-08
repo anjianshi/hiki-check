@@ -122,25 +122,31 @@ if __name__ == "__main__":
     @app.route('/')
     def web_logic():
         """访问此网址会强制执行一次检查，并返回 check.log 中的日志内容"""
-        text = 'check result: ' + check(True)
+        global checking
+
+        text = '<p>{}</p>'.format("checking" if checking else "not checking")
+        text += '<p><a href="./stop">stop</a> <a href="./start">start</a></p>'
+
+        text += '<p>check result: ' + check(True) + '</p>'
 
         if os.path.exists('check.log'):
             with open('check.log', 'r') as log_file:
                 text += "\n\n\nlog content:\n"
                 text += log_file.read()
 
-        return '<pre>' + text + '</pre>' + '<p><a href="./stop">stop</a> <a herf="./start">start</a></p>'
+        text = '<pre>' + text + '</pre>'
+        return text
 
     @app.route('/stop')
     def stop():
         global checking
         checking = False
-        return 'stopped'
+        return 'stopped <a href="./">return</a>'
 
     @app.route('/start')
     def start():
         global checking
         checking = True
-        return 'started'
+        return 'started <a href="./">return</a>'
 
     app.run(port=app_port)
